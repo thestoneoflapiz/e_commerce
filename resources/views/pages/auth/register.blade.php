@@ -43,7 +43,7 @@
         </div>
       </div>
       <div class="navbar-translate">
-        <a class="navbar-brand" href="/" rel="tooltip" title="Project by thestoneoflapiz. Contact me through thestoneoflapiz@gmail.com" data-placement="bottom" target="_blank">
+        <a class="navbar-brand" href="/" rel="tooltip" title="Project by thestoneoflapiz. Contact me through thestoneoflapiz@gmail.com" data-placement="bottom">
             E-Commerce | go to HOME
         </a>
         <button class="navbar-toggler navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
@@ -142,6 +142,7 @@
   </div>
   <!--   Core JS Files   -->
   <script src="{{ asset('nowui-kit/js/core/jquery.min.js') }}" type="text/javascript"></script>
+  <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
   <script src="{{ asset('nowui-kit/js/core/popper.min.js') }}" type="text/javascript"></script>
   <script src="{{ asset('nowui-kit/js/core/bootstrap.min.js') }}" type="text/javascript"></script>
   <!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->

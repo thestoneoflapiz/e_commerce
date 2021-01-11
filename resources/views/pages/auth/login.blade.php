@@ -16,6 +16,9 @@
   <link href="{{ asset('nowui-kit/css/now-ui-kit.css?v=1.3.0') }}" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="{{ asset('nowui-kit/demo/demo.css') }}" rel="stylesheet" />
+  <style>
+    #error_alert_msgs{display:none;}
+  </style>
 </head>
 
 <body class="login-page sidebar-collapse">
@@ -36,7 +39,7 @@
         </div>
       </div>
       <div class="navbar-translate">
-        <a class="navbar-brand" href="/" rel="tooltip" title="Project by thestoneoflapiz. Contact me through thestoneoflapiz@gmail.com" data-placement="bottom" target="_blank">
+        <a class="navbar-brand" href="/" rel="tooltip" title="Project by thestoneoflapiz. Contact me through thestoneoflapiz@gmail.com" data-placement="bottom">
             E-Commerce | go to HOME
         </a>
         <button class="navbar-toggler navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,11 +57,14 @@
       <div class="container">
         <div class="col-md-4 ml-auto mr-auto">
           <div class="card card-login card-plain">
-            <form class="form" method="" action="">
+            <form class="form" id="form">
               <div class="card-header text-center">
                 <div class="logo-container">
                   <img src="{{ asset('brand/thestoneoflapiz-1.png') }}" alt="">
                 </div>
+              </div>
+              <div class="alert alert-danger" role="alert" id="error_alert_msgs">
+                  <div class="container error-messages"></div>
               </div>
               <div class="card-body">
                 <div class="input-group no-border input-lg">
@@ -67,7 +73,7 @@
                       <i class="now-ui-icons users_circle-08"></i>
                     </span>
                   </div>
-                  <input type="text" class="form-control" placeholder="Email">
+                  <input type="text" class="form-control" placeholder="Email" name="email">
                 </div>
                 <div class="input-group no-border input-lg">
                   <div class="input-group-prepend">
@@ -75,7 +81,7 @@
                       <i class="now-ui-icons objects_key-25"></i>
                     </span>
                   </div>
-                  <input type="text" placeholder="Password" class="form-control" />
+                  <input type="password" placeholder="Password" class="form-control" name="password"/>
                 </div>
               </div>
               <div class="card-footer text-center">
@@ -105,18 +111,62 @@
       </div>
     </footer>
   </div>
-  <!--   Core JS Files   -->
   <script src="{{ asset('nowui-kit/js/core/jquery.min.js') }}" type="text/javascript"></script>
+  <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+
   <script src="{{ asset('nowui-kit/js/core/popper.min.js') }}" type="text/javascript"></script>
   <script src="{{ asset('nowui-kit/js/core/bootstrap.min.js') }}" type="text/javascript"></script>
-  <!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
-  <script src="{{ asset('nowui-kit/js/plugins/bootstrap-switch.js') }}"></script>
-  <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
-  <script src="{{ asset('nowui-kit/js/plugins/nouislider.min.js') }}" type="text/javascript"></script>
-  <!--  Plugin for the DatePicker, full documentation here: https://github.com/uxsolutions/bootstrap-datepicker -->
-  <script src="{{ asset('nowui-kit/js/plugins/bootstrap-datepicker.js') }}" type="text/javascript"></script>
-  <!--  Google Maps Plugin    -->
-  <!-- Control Center for Now Ui Kit: parallax effects, scripts for the example pages etc -->
   <script src="{{ asset('nowui-kit/js/now-ui-kit.js?v=1.3.0') }}" type="text/javascript"></script>
+  <script>
+    $(document).ready(function(){
+      $("#form").validate({
+        rules: {
+          email: {
+            required: true,
+            email: true,
+          },
+          password: {
+            required: true,
+            minlength: 5
+          }
+        },
+        messages: {
+          password: {
+            required: "Please provide a password",
+            minlength: "Your password must be at least 5 characters long"
+          },
+          email: "Please enter a valid email address"
+        },
+        errorElement : 'div',
+        errorLabelContainer: '.error-messages',
+        invalidHandler: function(form, validator) {
+          $("#error_alert_msgs").show();
+        },
+        submitHandler: function(form) {
+          $.ajax({
+            method: "POST",
+            url: "/login",
+            data: {
+              email: $("[name='email']").val(),
+              password: $("[name='password']").val(),
+              _token: "<?=csrf_token()?>"
+            },
+            success: function(response){
+              window.location=response.type+"/dashboard";
+            },
+            error: function(response){
+              var body = response.responseJSON;
+              if(body.hasOwnProperty("message")){
+                alert(body.message);
+                return;
+              }
+
+              alert("Unable to login! Please try again later.");
+            }
+          });
+        }
+      });
+    });
+  </script>
 </body>
 </html>

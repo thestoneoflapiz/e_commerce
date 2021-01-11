@@ -19,6 +19,8 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->enum('type', ["admin", "seller", "buyer"])->default("buyer");
+            $table->integer('buyer_mode')->default(1);
             $table->rememberToken();
             $table->timestamps();
         });
