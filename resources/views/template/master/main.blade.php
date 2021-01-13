@@ -16,6 +16,8 @@
   <link href="{{ asset('nowui-kit/css/now-ui-kit.css?v=1.3.0') }}" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="{{ asset('nowui-kit/demo/demo.css') }}" rel="stylesheet" />
+
+  @yield("styles")
 </head>
 
 <body class="landing-page sidebar-collapse">
@@ -60,50 +62,9 @@
         </div>
       </div>
     </div>
-    <div class="section section-team text-center">
-      <div class="container">
-        <h2 class="title">What we are selling?</h2>
-        <div class="team" id="items">
-          <div class="row">
-            <div class="col-md-4">
-              <div class="team-player">
-                <img src="{{ asset('nowui-kit/img/avatar.jpg') }}" alt="Thumbnail Image" class="img-fluid img-raised">
-                <h4 class="title">Romina Hadid</h4>
-                <p class="category text-primary">Model</p>
-                <p class="description">You can write here details about one of your team members. You can give more details about what they do. Feel free to add some
-                  <a href="#">links</a> for people to be able to follow them outside the site.</p>
-                <a href="#pablo" class="btn btn-primary btn-icon btn-round"><i class="fab fa-twitter"></i></a>
-                <a href="#pablo" class="btn btn-primary btn-icon btn-round"><i class="fab fa-instagram"></i></a>
-                <a href="#pablo" class="btn btn-primary btn-icon btn-round"><i class="fab fa-facebook-square"></i></a>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="team-player">
-                <img src="{{ asset('nowui-kit/img/ryan.jpg') }}" alt="Thumbnail Image" class="img-fluid img-raised">
-                <h4 class="title">Ryan Tompson</h4>
-                <p class="category text-primary">Designer</p>
-                <p class="description">You can write here details about one of your team members. You can give more details about what they do. Feel free to add some
-                  <a href="#">links</a> for people to be able to follow them outside the site.</p>
-                <a href="#pablo" class="btn btn-primary btn-icon btn-round"><i class="fab fa-twitter"></i></a>
-                <a href="#pablo" class="btn btn-primary btn-icon btn-round"><i class="fab fa-linkedin"></i></a>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="team-player">
-                <img src="<?=asset('nowui-kit/img/eva.jpg')?>" alt="Thumbnail Image" class="img-fluid img-raised">
-                <h4 class="title">Eva Jenner</h4>
-                <p class="category text-primary">Fashion</p>
-                <p class="description">You can write here details about one of your team members. You can give more details about what they do. Feel free to add some
-                  <a href="#">links</a> for people to be able to follow them outside the site.</p>
-                <a href="#pablo" class="btn btn-primary btn-icon btn-round"><i class="fab fa-google-plus"></i></a>
-                <a href="#pablo" class="btn btn-primary btn-icon btn-round"><i class="fab fa-youtube"></i></a>
-                <a href="#pablo" class="btn btn-primary btn-icon btn-round"><i class="fab fa-twitter"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    
+    @yield("content");
+
     <div class="section section-contact-us text-center">
       <div class="container">
         <h2 class="title">Want to work with us?</h2>
@@ -137,6 +98,8 @@
   <script src="{{ asset('nowui-kit/js/core/bootstrap.min.js') }}" type="text/javascript"></script>
   <!-- Control Center for Now Ui Kit: parallax effects, scripts for the example pages etc -->
   <script src="{{ asset('nowui-kit/js/now-ui-kit.js?v=1.3.0') }}" type="text/javascript"></script>
+  
+  @yield("scripts")
 </body>
 
 </html>

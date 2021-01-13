@@ -22,6 +22,8 @@
       border-color: #2ca8ff;
       border-width: 6px;
   }
+
+  #error_alert_msgs{display:none;}
   </style>
 </head>
 
@@ -61,11 +63,14 @@
       <div class="container">
         <div class="col-md-4 ml-auto mr-auto">
           <div class="card card-login card-plain">
-            <form class="form" method="" action="">
+            <form class="form" id="form">
               <div class="card-header text-center">
                 <div class="logo-container">
                   <img src="{{ asset('brand/thestoneoflapiz-1.png') }}" alt="">
                 </div>
+              </div>
+              <div class="alert alert-danger" role="alert" id="error_alert_msgs">
+                  <div class="container error-messages"></div>
               </div>
               <div class="card-body">
                 <div class="input-group no-border input-lg">
@@ -74,7 +79,7 @@
                       <i class="now-ui-icons users_circle-08"></i>
                     </span>
                   </div>
-                  <input type="text" class="form-control" placeholder="Name">
+                  <input type="text" class="form-control" placeholder="Name" name="name">
                 </div>
                 <div class="input-group no-border input-lg">
                   <div class="input-group-prepend">
@@ -82,7 +87,7 @@
                       <i class="now-ui-icons users_circle-08"></i>
                     </span>
                   </div>
-                  <input type="text" class="form-control" placeholder="Email">
+                  <input type="text" class="form-control" placeholder="Email" name="email">
                 </div>
                 <div class="input-group no-border input-lg">
                   <div class="input-group-prepend">
@@ -90,7 +95,7 @@
                       <i class="now-ui-icons objects_key-25"></i>
                     </span>
                   </div>
-                  <input type="text" placeholder="Password" class="form-control" />
+                  <input type="password" placeholder="Password" class="form-control" name="password" />
                 </div>
                 <div class="input-group no-border input-lg">
                   <div class="input-group-prepend">
@@ -98,16 +103,16 @@
                       <i class="now-ui-icons objects_key-25"></i>
                     </span>
                   </div>
-                  <input type="text" placeholder="Confirm Password" class="form-control" />
+                  <input type="password" placeholder="Confirm Password" class="form-control" name="password_confirmation" />
                 </div>
                 <div class="form-check form-check-radio">
                     <label class="form-check-label" style="margin-right:10px;">
-                        <input class="form-check-input" type="radio" name="exampleRadios" value="seller" checked="">
+                        <input class="form-check-input" type="radio" name="type[]" value="seller" checked="">
                         <span class="form-check-sign"></span>
                         Seller
                     </label>
                     <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="exampleRadios" value="buyer">
+                        <input class="form-check-input" type="radio" name="type[]" value="buyer">
                         <span class="form-check-sign"></span>
                         Buyer
                     </label>
@@ -140,18 +145,85 @@
       </div>
     </footer>
   </div>
-  <!--   Core JS Files   -->
   <script src="{{ asset('nowui-kit/js/core/jquery.min.js') }}" type="text/javascript"></script>
   <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+
   <script src="{{ asset('nowui-kit/js/core/popper.min.js') }}" type="text/javascript"></script>
   <script src="{{ asset('nowui-kit/js/core/bootstrap.min.js') }}" type="text/javascript"></script>
-  <!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
-  <script src="{{ asset('nowui-kit/js/plugins/bootstrap-switch.js') }}"></script>
-  <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
-  <script src="{{ asset('nowui-kit/js/plugins/nouislider.min.js') }}" type="text/javascript"></script>
-  <!--  Plugin for the DatePicker, full documentation here: https://github.com/uxsolutions/bootstrap-datepicker -->
-  <script src="{{ asset('nowui-kit/js/plugins/bootstrap-datepicker.js') }}" type="text/javascript"></script>
-  <!-- Control Center for Now Ui Kit: parallax effects, scripts for the example pages etc -->
   <script src="{{ asset('nowui-kit/js/now-ui-kit.js?v=1.3.0') }}" type="text/javascript"></script>
+  <script>
+    $(document).ready(function(){
+      $("#form").validate({
+        rules: {
+          name: {
+            required: true,
+            minlength: 1,
+            maxlength: 150,
+          },
+          email: {
+            required: true,
+            email: true,
+          },
+          password: {
+            required: true,
+            minlength: 5
+          },
+          password_confirmation: {
+            required: true,
+            equalTo: "[name='password']"
+          }
+        },
+        messages: {
+          name: {
+            required: "Please provide a name",
+            minlength: "Your name must be at least 1 characters long",
+            maxlength: "Your name must be at maximum of 150 characters long"
+          },
+          password: {
+            required: "Please provide a password",
+            minlength: "Your password must be at least 5 characters long"
+          },
+          password_confirmation: {
+            required: "Please confirm your password",
+            equalTo: "Password does not match"
+          },
+          email: {
+            required: "Please provide an email",
+            email: "Please enter a valid email address",
+          }
+        },
+        errorElement : 'div',
+        errorLabelContainer: '.error-messages',
+        invalidHandler: function(form, validator) {
+          $("#error_alert_msgs").show();
+        },
+        submitHandler: function(form) {
+          $.ajax({
+            method: "POST",
+            url: "/register",
+            data: {
+              name: $("[name='name']").val(),
+              email: $("[name='email']").val(),
+              password: $("[name='password']").val(),
+              type: $("[name='type[]']:checked").val(),
+              _token: "<?=csrf_token()?>"
+            },
+            success: function(response){
+              window.location="/login";
+            },
+            error: function(response){
+              var body = response.responseJSON;
+              if(body.hasOwnProperty("message")){
+                alert(body.message);
+                return;
+              }
+
+              alert("Unable to login! Please try again later.");
+            }
+          });
+        }
+      });
+    });
+  </script>
 </body>
 </html>

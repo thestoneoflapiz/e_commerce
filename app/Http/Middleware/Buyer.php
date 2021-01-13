@@ -15,7 +15,7 @@ class Buyer
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
             if(Auth::user()->buyer_mode == 1){

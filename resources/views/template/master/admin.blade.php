@@ -19,8 +19,13 @@
     </head>
     <body class="">
         <div class="wrapper ">
-            
-            @include("template.leftnav.admin")
+            @if(Auth::user()->type=="admin")
+                @include("template.leftnav.admin")
+            @elseif(Auth::user()->type=="seller")
+                @include("template.leftnav.seller")
+            @else
+                @include("template.leftnav.buyer")
+            @endif
         
             <div class="main-panel" id="main-panel">
             
