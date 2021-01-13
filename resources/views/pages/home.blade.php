@@ -5,11 +5,12 @@
 .landing-page .section-team .team .team-player img{ max-width: 200px; max-height: 120px;}
 .item---beautify{ 
     border:0.5x solid #888888; 
+    margin: 10px;
     padding-top:3%; 
     border-radius: 10px;
-    -webkit-box-shadow: 3px 3px 20px 1px #ccc; 
-    -moz-box-shadow: 3px 3px 20px 1px #ccc;
-    box-shadow: 3px 3px 20px 1px #ccc;    
+    -webkit-box-shadow: 1px 1px 12px 0px #e4e1e1; 
+    -moz-box-shadow: 1px 1px 12px 0px #e4e1e1;
+    box-shadow: 1px 1px 12px 0px #e4e1e1;    
 }
 </style>
 @endsection
@@ -64,8 +65,21 @@
             data: {
                 id, _token: "<?=csrf_token()?>"
             },
-            success: function(){
-                // window.location = "/cart";
+            success: function(response){
+                if(response.hasOwnProperty("login")){
+                    if(response.login){
+                        if(response.buyer){
+                            window.location = "/cart";
+                            return;
+                        }
+
+                        alert("Sorry! You're not allowed to buy items.");
+                        return;
+                    }
+                    window.location = "/login";
+                    return;
+                }
+                window.location = "/cart";
             },
             error: function(err){
                 var body = err.responseJSON;

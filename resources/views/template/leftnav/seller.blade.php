@@ -24,9 +24,17 @@
       <li class="{{ Request::segments()[1] == 'orders' ? 'active' : '' }}">
         <a href="/seller/orders">
           <i class="now-ui-icons location_map-big"></i>
-          <p>Orders</p>
+          <p>SOLD</p>
         </a>
       </li>
+      @if(Auth::user()->buyer_mode)
+      <li class="{{ Request::segments()[1] == 'my-items' ? 'active' : '' }}">
+        <a href="/seller/my-items">
+          <i class="now-ui-icons education_atom"></i>
+          <p>My Items</p>
+        </a>
+      </li>
+      @endif
     </ul>
   </div>
 </div>

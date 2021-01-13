@@ -33,8 +33,8 @@ Notes:
 # How to run this project on your local machine
 
 Note:
-    - Make sure you have installed `git`, `php`, `mysql`, `phpmyadmin`, and `composer` that are up to date 01-2020(Jan 2021)
-    - It's better to use Visual Studio Code to run and test this project and use it's terminal at `ctrl + j`
+- Make sure you have installed `git`, `php`, `mysql`, `phpmyadmin`, and `composer` that are up to date 01-2020(Jan 2021)
+- It's better to use Visual Studio Code to run and test this project and use it's terminal at `ctrl + j`
 
 1. Clone this project to your local machine
 2. Open your terminal and go to the project's directory

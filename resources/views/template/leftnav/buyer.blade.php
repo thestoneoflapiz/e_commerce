@@ -9,28 +9,16 @@
   </div>
   <div class="sidebar-wrapper" id="sidebar-wrapper">
     <ul class="nav">
-      <li class="active ">
-        <a href="./dashboard.html">
+      <li class="{{ Request::segments()[1] == 'dashboard' ? 'active' : '' }}">
+        <a href="/buyer/dashboard">
           <i class="now-ui-icons design_app"></i>
           <p>Dashboard</p>
         </a>
       </li>
-      <li>
-        <a href="./icons.html">
+      <li class="{{ Request::segments()[1] == 'my-items' ? 'active' : '' }}">
+        <a href="/buyer/my-items">
           <i class="now-ui-icons education_atom"></i>
-          <p>Products</p>
-        </a>
-      </li>
-      <li>
-        <a href="./map.html">
-          <i class="now-ui-icons location_map-big"></i>
-          <p>Sellers</p>
-        </a>
-      </li>
-      <li>
-        <a href="./notifications.html">
-          <i class="now-ui-icons ui-1_bell-53"></i>
-          <p>Settings</p>
+          <p>My Items</p>
         </a>
       </li>
     </ul>

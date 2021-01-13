@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\{
     Route, Auth
 };
 use App\Http\Controllers\{
-    AuthController, ItemsController, PurchaseController, PurchaseItemController,
+    AuthController, ItemsController, PurchaseController,
     UserController
 };
 
@@ -74,12 +74,27 @@ Route::group(['middleware' => ['auth']], function() {
                 Route::get("edit/{id}", [ItemsController::class, "edit"]);
                 Route::post("update", [ItemsController::class, "update"]);
             });
+
+            Route::prefix("my-items")->group(function(){
+                Route::get("/", function(){ return view("pages.seller.my-items"); });
+                Route::get("list", [PurchaseController::class, "get_purchase_list"]);    
+            });
+
+            Route::prefix("orders")->group(function(){
+                Route::get("/", function(){ return view("pages.items.orders"); });
+                Route::get("list", [PurchaseController::class, "get_orders_list"]);    
+            });
         });
     });
 
     Route::group(['middleware' => ['buyer']], function() {
         Route::prefix("buyer")->group(function(){
             Route::get("dashboard", function(){ return view("pages.buyer.index"); });
+
+            Route::prefix("my-items")->group(function(){
+                Route::get("/", function(){ return view("pages.buyer.my-items"); });
+                Route::get("list", [PurchaseController::class, "get_purchase_list"]);    
+            });
         });
     });
     
@@ -90,6 +105,7 @@ Route::get("items", [ItemsController::class, "catalog"]);
 // cart
 Route::prefix("cart")->group(function(){
     Route::get("/", [PurchaseController::class, "cart"]);
+    Route::get("items", [PurchaseController::class, "items"]);
     Route::post("add", [PurchaseController::class, "add_to_cart"]);
     Route::post("remove", [PurchaseController::class, "remove_from_cart"]);
 });
